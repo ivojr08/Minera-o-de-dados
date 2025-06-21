@@ -1,0 +1,8 @@
+pandas
+numpy
+pandera
+python-dateutil
+streamlit
+plotly
+geopandas
+pyarrow
