@@ -6,8 +6,7 @@ ROOT     = Path(__file__).resolve().parents[1]
 IN_FILE  = ROOT / "data" / "processed" / "acidentes_2021_2024_clean.parquet"
 OUT_FILE = ROOT / "data" / "processed" / "acidentes_2021_2024_feat.parquet"
 
-# -------------------------------------------------------------------- #
-# 1. Funções auxiliares
+# Funções auxiliares
 # -------------------------------------------------------------------- #
 def periodo_do_dia(hora: pd.Series) -> pd.Series:
     """
@@ -23,15 +22,13 @@ def periodo_do_dia(hora: pd.Series) -> pd.Series:
     bins   = [-1, 5, 11, 17, 23]
     labels = ["MADRUGADA", "MANHÃ", "TARDE", "NOITE"]
     return pd.cut(hh, bins=bins, labels=labels)
-
-# -------------------------------------------------------------------- #
-# 2. Pipeline principal
+# Pipeline principal
 # -------------------------------------------------------------------- #
 def main() -> None:
     print("Lendo dataset limpo …")
     df = pd.read_parquet(IN_FILE)
 
-     # 0. Renomeia colunas para evitar inconsistências
+     # Renomeia colunas para evitar inconsistências
     rename_map = {
         "mortos": "mortes",
         "feridos_leves":  "feridos_leves",
@@ -54,7 +51,7 @@ def main() -> None:
     df["total_feridos"]   = df[["feridos_leves", "feridos_graves"]].sum(axis=1)
     df["indice_gravidade"] = df["mortes"] * 3 + df["total_feridos"]
 
-    # --- Exemplo extra: bucketizar km ----------------------------------
+    # --- bucketizar km ----------------------------------
     if "km" in df.columns:
         km_bins   = list(range(0, int(df["km"].max()) + 100, 100))
         km_labels = [f"{a}-{b}" for a, b in zip(km_bins[:-1], km_bins[1:])]
