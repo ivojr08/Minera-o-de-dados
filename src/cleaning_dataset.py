@@ -13,18 +13,15 @@ def main() -> None:
     # ------------------------------------------------------------------
     print("Lendo Parquet consolidado …")
     df = pd.read_parquet(IN_FILE)
-
-    # ------------------------------------------------------------------
-    # 1. Datas como datetime
+    
+    # Datas como datetime
     # ------------------------------------------------------------------
     if "data" in df.columns:
         df["data"] = pd.to_datetime(df["data"], errors="coerce")
     if "hora" in df.columns:
         # hora já vem como datetime.time - mantém
         pass
-
-    # ------------------------------------------------------------------
-    # 2. Valores ausentes
+    # Valores ausentes
     # ------------------------------------------------------------------
     print("\nNulos por coluna (antes do tratamento):")
     print(df.isna().sum().sort_values(ascending=False).head(12))
@@ -44,9 +41,8 @@ def main() -> None:
         moda = df[col].mode(dropna=True)
         if not moda.empty:
             df[col] = df[col].fillna(moda[0])
-
-    # ------------------------------------------------------------------
-    # 3. Remoção de duplicatas e registros incoerentes
+            
+    # Remoção de duplicatas e registros incoerentes
     # ------------------------------------------------------------------
     antes = len(df)
     # duplicatas exatas
@@ -60,9 +56,8 @@ def main() -> None:
 
     depois = len(df)
     print(f"\nRemovidas {antes - depois} linhas duplicadas/incoerentes.")
-
-    # ------------------------------------------------------------------
-    # 4. Relatório final
+    
+    # Relatório final
     # ------------------------------------------------------------------
     print("\nNulos por coluna (depois do tratamento):")
     print(df.isna().sum().sort_values(ascending=False).head(12))
