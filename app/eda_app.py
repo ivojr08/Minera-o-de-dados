@@ -43,7 +43,7 @@ tab_dist, tab_top5, tab_mapa, tab_disp = st.tabs(
     ["Distribuições", "Top 5", "Mapa", "Dispersão"]
 )
 
-# 1) DISTRIBUIÇÕES
+# DISTRIBUIÇÕES
 with tab_dist:
     st.subheader("Histograma & Boxplot")
     var = st.selectbox(
@@ -83,7 +83,7 @@ with tab_dist:
     )
     st.plotly_chart(fig_c, use_container_width=True)
 
-# 2) TOP 5
+# TOP 5
 with tab_top5:
     st.subheader("Top 5 Causas")
     top_causa = (
@@ -124,7 +124,7 @@ with tab_top5:
     )
     st.plotly_chart(fig_tipo, use_container_width=True)
 
-# 3) MAPA
+# MAPA
 with tab_mapa:
     st.subheader("Mapa de Acidentes (amostra máx. 5 000 pontos)")
     if {"latitude", "longitude"}.issubset(f.columns):
@@ -144,7 +144,7 @@ with tab_mapa:
     else:
         st.info("Não há colunas latitude/longitude disponíveis.")
 
-# 4) DISPERSÃO
+# DISPERSÃO
 with tab_disp:
     st.subheader("Nº de vítimas × Condição do tempo")
     y_var = st.selectbox(
