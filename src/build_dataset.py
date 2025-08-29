@@ -2,16 +2,14 @@ from pathlib import Path
 import pandas as pd
 from unidecode import unidecode
 
-# ------------------------------------------------------------------ #
-# 1) Pastas de entrada e saída
+# Pastas de entrada e saída
 # ------------------------------------------------------------------ #
 ROOT     = Path(__file__).resolve().parents[1]          # raiz do projeto
 RAW_DIR  = ROOT / "data" / "Dados"
 OUT_DIR  = ROOT / "data" / "processed"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
-# ------------------------------------------------------------------ #
-# 2) Funções auxiliares
+# Funções auxiliares
 # ------------------------------------------------------------------ #
 def _read_csv_auto(path: Path) -> pd.DataFrame:
     """
@@ -90,10 +88,8 @@ def _clean_basic(df: pd.DataFrame) -> pd.DataFrame:
         df = df.dropna(subset=["data"]).reset_index(drop=True)
 
     return df
-
-
-# ------------------------------------------------------------------ #
-# 3) Pipeline principal
+    
+# Pipeline principal
 # ------------------------------------------------------------------ #
 def build_parquet() -> Path:
     """Lê todos os CSVs de data/raw, consolida e grava Parquet; devolve o Path."""
@@ -115,10 +111,8 @@ def build_parquet() -> Path:
     full.to_parquet(out_file, index=False)
     print(f"Parquet salvo em: {out_file.relative_to(ROOT)}")
     return out_file
-
-
-# ------------------------------------------------------------------ #
-# 4) Execução via linha de comando
+    
+# Execução via linha de comando
 # ------------------------------------------------------------------ #
 if __name__ == "__main__":
     build_parquet()
